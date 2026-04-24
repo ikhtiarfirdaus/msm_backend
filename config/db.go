@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -12,8 +13,15 @@ import (
 var DB *gorm.DB
 
 func ConnectDB() {
-	dsn := os.Getenv("MYSQL_URL")
+	err := godotenv.Load()
+	if err != nil {
+		err = godotenv.Load(".env")
+		if err != nil {
+			log.Println("info: .env file ga kebaca")
+		}
+	}
 
+	dsn := os.Getenv("MYSQL_URL")
 	if dsn == "" {
 		dsn = "root:@tcp(127.0.0.1:3306)/msm_backend?charset=utf8mb4&parseTime=True&loc=Local"
 	}
