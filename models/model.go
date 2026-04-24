@@ -26,7 +26,7 @@ type Stock struct {
 	Product   Product `gorm:"foreignKey:ProductID" json:"product"`
 	SizeID    uint    `json:"size_id"`
 	Size      Size    `gorm:"foreignKey:SizeID" json:"size"`
-	Code      string  `gorm:"uniqueIndex" json:"code"`
+	Code      string  `gorm:"type:varchar(100);uniqueIndex"`
 	Qty       int     `json:"qty"`
 
 	LowStockThreshold int `gorm:"default:3" json:"low_stock_threshold"`
