@@ -14,7 +14,12 @@ func main() {
 	config.ConnectDB()
 	config.DB.AutoMigrate(&models.Stock{}, &models.StockHistory{}, &models.Product{}, &models.Size{}, &models.Category{})
 	r := gin.Default()
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"https://muku-apk-by-ikhtiar-tau.vercel.app/"}, // Sementara pakai "*" biar semua bisa akses, nanti ganti ke link Vercel lo
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowCredentials: true,
+	}))
 
 	r.GET("/stocks", controllers.GetStock)
 	r.GET("/products", controllers.GetProductsGrouped)
